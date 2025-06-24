@@ -15,7 +15,7 @@ public final class FlashCardEntity {
     private String title;
     private String description;
 
-    private LocalDate lastReviewedAt;
+    private LocalDate nextReviewedAt;
     private int intervalDays;
 
     @ManyToOne
@@ -47,12 +47,12 @@ public final class FlashCardEntity {
         this.description = description;
     }
 
-    public LocalDate getLastReviewedAt() {
-        return lastReviewedAt;
+    public LocalDate getNextReviewedAt() {
+        return nextReviewedAt;
     }
 
-    public void setLastReviewedAt(LocalDate lastReviewedAt) {
-        this.lastReviewedAt = lastReviewedAt;
+    public void setNextReviewedAt(LocalDate nextReviewedAt) {
+        this.nextReviewedAt = nextReviewedAt;
     }
 
     public int getIntervalDays() {

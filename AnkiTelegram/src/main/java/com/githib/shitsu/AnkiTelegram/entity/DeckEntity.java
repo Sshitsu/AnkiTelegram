@@ -18,4 +18,35 @@ public final class DeckEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "decks")
     private List<FlashCardEntity> flashCardList;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return Description;
+    }
+
+    public void setDescription(String description) {
+        Description = description;
+    }
+
+    public List<FlashCardEntity> getFlashCardList() {
+        return flashCardList;
+    }
+
+    public void setFlashCardList(List<FlashCardEntity> flashCardList) {
+        this.flashCardList = flashCardList;
+    }
 }
