@@ -1,8 +1,7 @@
-package com.githib.shitsu.AnkiTelegram.repository;
+package com.github.shitsu.AnkiTelegram.repository;
 
-import com.githib.shitsu.AnkiTelegram.entity.DeckEntity;
-import com.githib.shitsu.AnkiTelegram.entity.FlashCardEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.github.shitsu.AnkiTelegram.entity.DeckEntity;
+import com.github.shitsu.AnkiTelegram.entity.FlashCardEntity;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDate;

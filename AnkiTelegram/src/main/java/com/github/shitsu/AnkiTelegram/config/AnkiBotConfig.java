@@ -1,4 +1,4 @@
-package com.githib.shitsu.AnkiTelegram.config;
+package com.github.shitsu.AnkiTelegram.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

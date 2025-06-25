@@ -1,10 +1,6 @@
-package com.githib.shitsu.AnkiTelegram.models;
+package com.github.shitsu.AnkiTelegram.models;
 
-import com.githib.shitsu.AnkiTelegram.entity.DeckEntity;
-import com.githib.shitsu.AnkiTelegram.entity.FlashCardEntity;
-import jakarta.persistence.*;
-
-import java.time.LocalDate;
+import com.github.shitsu.AnkiTelegram.entity.FlashCardEntity;
 
 public final class FlashCard {
 

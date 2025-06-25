@@ -1,16 +1,13 @@
-package com.githib.shitsu.AnkiTelegram.bot;
+package com.github.shitsu.AnkiTelegram.bot;
 
-import com.githib.shitsu.AnkiTelegram.config.AnkiBotConfig;
-import com.githib.shitsu.AnkiTelegram.sevice.DeckService;
-import com.githib.shitsu.AnkiTelegram.sevice.FlashCardService;
+import com.github.shitsu.AnkiTelegram.config.AnkiBotConfig;
+import com.github.shitsu.AnkiTelegram.sevice.DeckService;
+import com.github.shitsu.AnkiTelegram.sevice.FlashCardService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Slf4j
@@ -63,7 +60,7 @@ public class AnkiTelegramBot extends TelegramLongPollingBot {
             log.info("Sent message to {} (text: {})", chatId, text);
         } catch (TelegramApiException e) {
             log.error("Failed to send message to {}: {}", chatId, e.getMessage(), e);
-            //e.printStackTrace();
+
         }
     }
 }

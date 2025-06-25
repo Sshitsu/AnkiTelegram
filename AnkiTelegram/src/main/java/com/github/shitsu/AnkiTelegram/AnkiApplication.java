@@ -1,4 +1,4 @@
-package com.githib.shitsu.AnkiTelegram;
+package com.github.shitsu.AnkiTelegram;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

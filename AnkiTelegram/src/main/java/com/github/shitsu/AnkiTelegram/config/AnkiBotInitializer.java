@@ -1,8 +1,7 @@
-package com.githib.shitsu.AnkiTelegram.config;
+package com.github.shitsu.AnkiTelegram.config;
 
-import com.githib.shitsu.AnkiTelegram.bot.AnkiTelegramBot;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.shitsu.AnkiTelegram.bot.AnkiTelegramBot;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -11,6 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Component
+@Slf4j
 public class AnkiBotInitializer  {
 
     AnkiTelegramBot bot;
@@ -25,7 +25,7 @@ public class AnkiBotInitializer  {
         try {
             telegramBotsApi.registerBot(bot);
         } catch (TelegramApiException e) {
-            e.printStackTrace();
+            log.error("Error registering bot {}", bot, e.getMessage());
         }
 
     }
