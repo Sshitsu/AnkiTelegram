@@ -29,13 +29,13 @@ cd AnkiTelegram
 
 Add the following to your `application.properties` or set them in your environment:
 
- properties:
-  BOT_USERNAME=your_bot_username
-  BOT_TOKEN=your_bot_token
+ ## properties
+- BOT_USERNAME=your_bot_username
+- BOT_TOKEN=your_bot_token
+- SPRING_DATASOURCE_URLyour_ds_url
+- SPRING_DATASOURCE_USERNAME=your_db_username
+- SPRING_DATASOURCE_PASSWORD=your_db_password
 
-  SPRING_DATASOURCE_URLyour_ds_url
-  SPRING_DATASOURCE_USERNAME=your_db_username
-  SPRING_DATASOURCE_PASSWORD=your_db_password
  
 
 3. **Configure the database**
