@@ -1,8 +1,6 @@
-package com.githib.shitsu.AnkiTelegram.models;
+package com.github.shitsu.AnkiTelegram.models;
 
-import com.githib.shitsu.AnkiTelegram.entity.DeckEntity;
-import com.githib.shitsu.AnkiTelegram.entity.FlashCardEntity;
-import jakarta.persistence.*;
+import com.github.shitsu.AnkiTelegram.entity.DeckEntity;
 
 import java.util.List;
 import java.util.stream.Collectors;

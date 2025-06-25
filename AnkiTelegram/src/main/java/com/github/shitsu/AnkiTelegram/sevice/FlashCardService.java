@@ -1,11 +1,11 @@
-package com.githib.shitsu.AnkiTelegram.sevice;
+package com.github.shitsu.AnkiTelegram.sevice;
 
-import com.githib.shitsu.AnkiTelegram.entity.DeckEntity;
-import com.githib.shitsu.AnkiTelegram.entity.FlashCardEntity;
-import com.githib.shitsu.AnkiTelegram.exeception.FlashCardNotFoundException;
-import com.githib.shitsu.AnkiTelegram.models.FlashCard;
-import com.githib.shitsu.AnkiTelegram.repository.DeckRepository;
-import com.githib.shitsu.AnkiTelegram.repository.FlashCardRepository;
+import com.github.shitsu.AnkiTelegram.entity.DeckEntity;
+import com.github.shitsu.AnkiTelegram.entity.FlashCardEntity;
+import com.github.shitsu.AnkiTelegram.exeception.FlashCardNotFoundException;
+import com.github.shitsu.AnkiTelegram.models.FlashCard;
+import com.github.shitsu.AnkiTelegram.repository.DeckRepository;
+import com.github.shitsu.AnkiTelegram.repository.FlashCardRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;

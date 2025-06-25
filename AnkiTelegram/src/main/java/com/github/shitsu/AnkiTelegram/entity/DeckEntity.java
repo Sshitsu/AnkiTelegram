@@ -1,4 +1,4 @@
-package com.githib.shitsu.AnkiTelegram.entity;
+package com.github.shitsu.AnkiTelegram.entity;
 
 import jakarta.persistence.*;
 
