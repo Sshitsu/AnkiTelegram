@@ -15,7 +15,7 @@ public final class DeckEntity {
 
     private String Description;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "decks")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "deck")
     private List<FlashCardEntity> flashCardList;
 
     public Long getId() {
