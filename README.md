@@ -50,15 +50,6 @@ bash:
 
 The bot will start listening for Telegram updates.
 
-##  Project Structure
- 
-src/
-├── bot/                    - Telegram bot logic
-├── entity/                 - JPA entities: Deck and FlashCard
-├── models/                 - DTOs for user-facing models
-├── repository/             - Spring Data repositories
-├── service/                - Business logic: reviewing, adding cards, etc.
-└── exeception/             - Custom exception classes
  
 
 ## Spaced Repetition Algorithm
@@ -72,8 +63,7 @@ src/
 Pull requests are welcome! If you have suggestions or ideas, feel free to open an issue.
 
 
-### Contact
-th
+### Contac
 Developed by [@Sshitsu](https://github.com/Sshitsu).
 For questions or contributions, open an issue or PR.
 
