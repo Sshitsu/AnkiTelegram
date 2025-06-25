@@ -1,4 +1,0 @@
-2025-06-25 16:28:10.859 INFO  c.g.s.AnkiTelegram.AnkiApplication - Starting AnkiApplication using Java 22.0.2 with PID 3856 (D:\IdeaProjects\AnkiTelegram\AnkiTelegram\target\classes started by globa in D:\IdeaProjects\AnkiTelegram)
-2025-06-25 16:28:10.859 DEBUG c.g.s.AnkiTelegram.AnkiApplication - Running with Spring Boot v3.5.3, Spring v6.2.8
-2025-06-25 16:28:10.859 INFO  c.g.s.AnkiTelegram.AnkiApplication - No active profile set, falling back to 1 default profile: "default"
-2025-06-25 16:28:15.094 INFO  c.g.s.AnkiTelegram.AnkiApplication - Started AnkiApplication in 4.707 seconds (process running for 5.413)
