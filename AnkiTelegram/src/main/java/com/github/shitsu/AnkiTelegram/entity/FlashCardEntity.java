@@ -13,9 +13,11 @@ public final class FlashCardEntity {
     private Long id;
 
     private String title;
+
     private String description;
 
     private LocalDate nextReviewedAt;
+
     private int intervalDays;
 
     @ManyToOne

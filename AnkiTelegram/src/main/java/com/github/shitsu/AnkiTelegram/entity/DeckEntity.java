@@ -16,6 +16,7 @@ public final class DeckEntity {
     private String Description;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "deck")
+    @JoinColumn(name = "user_id")
     private List<FlashCardEntity> flashCardList;
 
     public Long getId() {
