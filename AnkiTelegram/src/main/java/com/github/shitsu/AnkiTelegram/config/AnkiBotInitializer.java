@@ -1,6 +1,7 @@
 package com.github.shitsu.AnkiTelegram.config;
 
 import com.github.shitsu.AnkiTelegram.bot.AnkiTelegramBot;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -20,6 +21,7 @@ public class AnkiBotInitializer  {
     }
 
     @EventListener({ContextRefreshedEvent.class})
+    @PostConstruct
     public void init() throws TelegramApiException {
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
         try {
