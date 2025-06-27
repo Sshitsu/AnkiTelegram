@@ -1,9 +1,8 @@
 CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        chat_id INTEGER UNIQUE  NOT NULL,
-                       firstname TEXT,
-                       lastname TEXT,
-                       username TEXT NOT NULL
+                       username TEXT NOT NULL,
+                       bot_state VARCHAR(255) NOT NULL
 );
 CREATE TABLE deck(
     id SERIAL PRIMARY KEY,

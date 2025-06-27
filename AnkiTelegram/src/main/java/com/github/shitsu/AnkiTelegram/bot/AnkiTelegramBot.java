@@ -6,6 +6,7 @@ import com.github.shitsu.AnkiTelegram.sevice.FlashCardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
@@ -13,14 +14,15 @@ import org.telegram.telegrambots.meta.api.objects.commands.BotCommand;
 import org.telegram.telegrambots.meta.api.objects.commands.scope.BotCommandScopeDefault;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
 @Component
 public class AnkiTelegramBot extends TelegramLongPollingBot {
-    private final DeckService deckService;
-    private final FlashCardService flashCardService;
+    private final UpdateReceiver updateReceiver;
+    private final AnkiBotConfig config;
 
     private final String HELP_TEXT = "This bot is created to memorize the new words. \n\n" +
             "You can execute commands from the main menu on the left or by typing command:\n\n" +
@@ -32,11 +34,18 @@ public class AnkiTelegramBot extends TelegramLongPollingBot {
             "Type /review to start memorize word.After you type this command, you will see a list of decks \n" +
             "Then you need chose a deck and start memorize, and then you can see buttons 1. show deck, 2. know , 3. unknown";
 
-    private final AnkiBotConfig config;
+    @Override
+    public String getBotToken() {
+        return config.getToken();
+    }
 
-    public AnkiTelegramBot(DeckService deckService, FlashCardService flashCardService, AnkiBotConfig config) {
-        this.deckService = deckService;
-        this.flashCardService = flashCardService;
+    @Override
+    public String getBotUsername() {
+        return config.getBotName();
+    }
+
+    public AnkiTelegramBot(UpdateReceiver updateReceiver, AnkiBotConfig config) {
+        this.updateReceiver = updateReceiver;
         this.config = config;
         List<BotCommand> listOfCommands = new ArrayList();
         listOfCommands.add(new BotCommand("/start", "start work"));
@@ -54,56 +63,23 @@ public class AnkiTelegramBot extends TelegramLongPollingBot {
         }
     }
 
-    @Override
-    public String getBotToken() {
-        return config.getToken();
-    }
-
-    @Override
-    public String getBotUsername() {
-        return config.getBotName();
-    }
 
     @Override
     public void onUpdateReceived(Update update) {
-        log.info("Received update: {}", update);
-        if (update.hasMessage() && update.getMessage().hasText()) {
-            String messageText =  update.getMessage().getText();
-            long chatId = update.getMessage().getChatId();
-
-            switch (messageText) {
-                case "/start":
-                    sendMsg(chatId, update.getMessage().getChat().getFirstName());
-                    break;
-                case "/help":
-                    sendMsgOnCommandHelp(chatId, HELP_TEXT);
-                default : sendMsg(chatId, "Sorry");
-            }
-        }
+       List<PartialBotApiMethod<? extends Serializable>> messagesToSend = updateReceiver.handle(update);
+       if(messagesToSend != null && !messagesToSend.isEmpty()){
+           messagesToSend.forEach(response -> {
+               if(response instanceof SendMessage){
+                   executeWithExceptionCheck((SendMessage) response);
+               }
+           });
+       }
     }
-    private void sendMsgOnCommandHelp(Long chatId, String message) {
-        try {
-            SendMessage sendMessage = new SendMessage();
-            sendMessage.setChatId(chatId);
-            sendMessage.setText(HELP_TEXT);
+    public void executeWithExceptionCheck(SendMessage sendMessage) {
+        try{
             execute(sendMessage);
-            log.info("Sent message: {}", message);
         } catch (TelegramApiException e) {
-            log.error("Error executing sendMessage: " + e.getMessage());
-        }
-    }
-
-    private void sendMsg(Long chatId, String text) {
-        String answer = "Hi, " + text + ", nice to meet you!";
-        try {
-            SendMessage message = new SendMessage();
-            message.setChatId(chatId.toString());
-            message.setText(answer);
-            execute(message);
-            log.info("Sent message to {} (text: {})", chatId, text);
-        } catch (TelegramApiException e) {
-            log.error("Failed to send message to {}: {}", chatId, e.getMessage(), e);
-
+            log.error("Error executing command: " + e.getMessage());
         }
     }
 }
