@@ -2,11 +2,12 @@ CREATE TABLE users (
                        id SERIAL PRIMARY KEY,
                        chat_id INTEGER UNIQUE  NOT NULL,
                        username TEXT NOT NULL,
-                       bot_state VARCHAR(255) NOT NULL
+                       state VARCHAR(255)
 );
 CREATE TABLE deck(
     id SERIAL PRIMARY KEY,
     name VARCHAR(255) not null,
+    description varchar(255),
     user_id INTEGER REFERENCES users(id) ON DELETE CASCADE
 );
 CREATE TABLE flashcard (
@@ -21,3 +22,4 @@ CREATE TABLE flashcard (
 drop table deck cascade ;
 drop table flashcard cascade;
 drop table users cascade;
+

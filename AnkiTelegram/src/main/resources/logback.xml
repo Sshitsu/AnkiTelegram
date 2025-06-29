@@ -14,7 +14,7 @@
     <appender name="FILE_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${HOME_LOG}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>./logs/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <fileNamePattern>./log/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxFileSize>10MB</maxFileSize>
             <totalSizeCap>1GB</totalSizeCap>
             <maxHistory>60</maxHistory>
@@ -25,7 +25,7 @@
     </appender>
 
 
-    <logger name="com.github.shitsu.AnkiTelegram" level="DEBUG" additivity="false">
+    <logger name="com.github.shitsu.anki" level="DEBUG" additivity="false">
         <appender-ref ref="FILE_ROLLING"/>
         <appender-ref ref="CONSOLE"/>
     </logger>
@@ -33,6 +33,7 @@
 
     <root level="INFO">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_ROLLING"/>
     </root>
 
 </configuration>
