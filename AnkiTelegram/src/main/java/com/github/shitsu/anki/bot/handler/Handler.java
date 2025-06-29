@@ -6,9 +6,10 @@ import org.telegram.telegrambots.meta.api.methods.PartialBotApiMethod;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Locale;
 
 public interface Handler {
-    List<PartialBotApiMethod <? extends Serializable>> handle(UserEntity user, String message);
+    List<PartialBotApiMethod <? extends Serializable>> handle(UserEntity user, String message, Locale locale);
 
     List<String> operatedCallBackQuery();
 
