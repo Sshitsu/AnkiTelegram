@@ -4,7 +4,6 @@ import com.github.shitsu.anki.bot.State;
 import com.github.shitsu.anki.entity.UserEntity;
 import com.github.shitsu.anki.models.Deck;
 import com.github.shitsu.anki.sevice.UserService;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;

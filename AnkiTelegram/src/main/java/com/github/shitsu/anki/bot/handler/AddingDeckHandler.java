@@ -48,6 +48,7 @@ public class AddingDeckHandler implements Handler{
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> accept(UserEntity user, Locale locale) {
+
         String deckName = user.getTempDeckName();
         deckService.addDeckToUser(user, deckName);
         user.setTempDeckName(null);

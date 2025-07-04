@@ -31,10 +31,4 @@ public class UserEntity {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<DeckEntity> decks;
 
-    public UserEntity(Long chatId, String username, State state) {
-        this.chatId = chatId;
-        this.username = username;
-        this.state = state;
-    }
-
 }
