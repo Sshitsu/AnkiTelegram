@@ -35,20 +35,20 @@ public final class FlashCardService {
         return FlashCard.toModel(flashCardRepository.save(flashCardEntity));
     }
 
-    public void reviewCard(Long flashCardId, boolean success ){
-        FlashCardEntity flashCardEntity = flashCardRepository
-                .findById(flashCardId)
-                .orElseThrow(() -> new FlashCardNotFoundException("Flashcard not Found!"));
-        if(success){
-            int newInterval = flashCardEntity.getIntervalDays() * 2;
-            flashCardEntity.setIntervalDays(newInterval);
-            flashCardEntity.setNextReviewedAt(LocalDate.now().plusDays(newInterval));
-            flashCardRepository.save(flashCardEntity);
-        } else {
-            flashCardEntity.setIntervalDays(1);
-            flashCardEntity.setNextReviewedAt(LocalDate.now().plusDays(1));
-        }
-    }
+//    public void reviewCard(Long flashCardId, boolean success ){
+//        FlashCardEntity flashCardEntity = flashCardRepository
+//                .findById(flashCardId)
+//                .orElseThrow(() -> new FlashCardNotFoundException("Flashcard not Found!"));
+//        if(success){
+//            int newInterval = flashCardEntity.getIntervalDays() * 2;
+//            flashCardEntity.setIntervalDays(newInterval);
+//            flashCardEntity.setNextReviewedAt(LocalDate.now().plusDays(newInterval));
+//            flashCardRepository.save(flashCardEntity);
+//        } else {
+//            flashCardEntity.setIntervalDays(1);
+//            flashCardEntity.setNextReviewedAt(LocalDate.now().plusDays(1));
+//        }
+//    }
 
     public List<FlashCard> getDueCards(Long deckId){
         return flashCardRepository.findByDeckIdAndNextReviewedAtLessThanEqual(deckId, LocalDate.now())

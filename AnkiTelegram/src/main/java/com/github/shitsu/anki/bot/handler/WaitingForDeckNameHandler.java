@@ -1,10 +1,7 @@
 package com.github.shitsu.anki.bot.handler;
 
 import com.github.shitsu.anki.bot.State;
-import com.github.shitsu.anki.builder.DeckMessageBuilder;
 import com.github.shitsu.anki.entity.UserEntity;
-import com.github.shitsu.anki.models.Deck;
-import com.github.shitsu.anki.sevice.DeckService;
 import com.github.shitsu.anki.sevice.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,32 +15,50 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 import java.io.Serializable;
 import java.util.List;
 import java.util.Locale;
-import java.util.stream.Collectors;
 
+import static com.github.shitsu.anki.bot.handler.AddingDeckHandler.*;
 import static com.github.shitsu.anki.util.TelegramUtil.createMessageTemplate;
 import static com.github.shitsu.anki.util.TelegramUtil.createInlineKeyboardButton;
+
+
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class ChooseDeckHandler implements Handler {
-
+public class WaitingForDeckNameHandler implements Handler {
     private final UserService userService;
-    private final DeckService deckService;
     private final MessageSource messageSource;
-    private final DeckMessageBuilder  deckMessageBuilder;
 
 
     @Override
     public List<PartialBotApiMethod<? extends Serializable>> handle(UserEntity user, String message, Locale locale) {
-
         if (message.startsWith("/") || message.trim().isEmpty()) {
             SendMessage errorMessage = createMessageTemplate(user);
             errorMessage.setText(messageSource.getMessage("bot.invalid.deck.name", null, locale));
-            log.error("Invalid number of Deck: {}", message);
+            log.error("Invalid Deck Name: {}", message);
             return List.of(errorMessage);
         }
-        return deckMessageBuilder.buildDeckListMessage(user, locale);
+
+
+        UserEntity freshUser = userService.findOrCreateUser(user.getChatId(), user.getUsername());
+        freshUser.setTempDeckName(message.trim());
+        freshUser.setState(State.ADDING_DECK);
+        userService.save(freshUser);
+
+
+        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+        List<InlineKeyboardButton> row = List.of(
+                createInlineKeyboardButton("Accept", ADD_DECK_ACCEPT),
+                createInlineKeyboardButton("Reset", ADD_DECK_RESET),
+                createInlineKeyboardButton("Back", ADD_DECK_BACK)
+        );
+        inlineKeyboardMarkup.setKeyboard(List.of(row));
+
+        SendMessage response = createMessageTemplate(freshUser);
+        response.setText(messageSource.getMessage("bot.accept.deck.name", new Object[]{message}, locale));
+        response.setReplyMarkup(inlineKeyboardMarkup);
+
+        return List.of(response);
 
     }
 
@@ -54,7 +69,6 @@ public class ChooseDeckHandler implements Handler {
 
     @Override
     public State operatedBotState() {
-        return State.CHOOSING_DECK;
+        return State.WAITING_FOR_DECK_NAME;
     }
 }
-

@@ -14,11 +14,16 @@ public final class FlashCardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "question")
     private String question;
+
+    @Column(name = "answer")
     private String answer;
 
+    @Column(name = "next_review_date")
     private LocalDate nextReviewedAt;
 
+    @Column(name = "interval_days")
     private int intervalDays;
 
     @ManyToOne

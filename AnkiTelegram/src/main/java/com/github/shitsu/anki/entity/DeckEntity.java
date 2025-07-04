@@ -15,10 +15,13 @@ public final class DeckEntity {
 
     private String name;
 
-    private String Description;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(
+            name = "user_chat_id",
+            referencedColumnName = "chat_id",
+            foreignKey = @ForeignKey(name = "fk_deck_user_chat"),
+            nullable = false
+    )
     private UserEntity user;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "deck")

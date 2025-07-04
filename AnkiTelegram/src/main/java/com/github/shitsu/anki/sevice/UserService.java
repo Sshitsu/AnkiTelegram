@@ -10,6 +10,7 @@ import com.github.shitsu.anki.repository.DeckRepository;
 import com.github.shitsu.anki.repository.FlashCardRepository;
 import com.github.shitsu.anki.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,7 +31,7 @@ public class UserService {
     }
 
     public List<Deck> getDecks(UserEntity user) {
-        return deckRepository.findAllByUser(user)
+        return deckRepository.findAllByUserChatId(user.getChatId())
                 .stream()
                 .map(Deck::toModel)
                 .collect(Collectors.toList());
@@ -46,7 +47,6 @@ public class UserService {
                 });
 
     }
-
     public UserEntity save(UserEntity userEntity) {
         return userRepository.save(userEntity);
     }

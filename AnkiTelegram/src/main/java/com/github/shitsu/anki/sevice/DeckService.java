@@ -6,13 +6,14 @@ import com.github.shitsu.anki.exeception.DeckNotFoundException;
 import com.github.shitsu.anki.models.Deck;
 import com.github.shitsu.anki.repository.DeckRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 @Service
-public final class DeckService {
+public class DeckService {
 
     private final DeckRepository deckRepository;
 
@@ -20,22 +21,17 @@ public final class DeckService {
         this.deckRepository = deckRepository;
     }
 
-    public DeckEntity addDeck(DeckEntity deck){
-        return deckRepository.save(deck);
+
+    public DeckEntity addDeckToUser(UserEntity user, String deckName) {
+        DeckEntity deckEntity = new DeckEntity();
+        deckEntity.setUser(user);
+        deckEntity.setName(deckName);
+        deckRepository.save(deckEntity);
+        return deckEntity;
     }
 
-    public List<Deck> getAllDecks(UserEntity user) {
-        List<Deck> decks = new ArrayList<>();
-        for (DeckEntity deckEntity : deckRepository.findAllByUser(user)) {
-            decks.add(Deck.toModel(deckEntity));
-        }
-        return decks;
-    }
-
-    public Deck getDeck(Long id) throws DeckNotFoundException {
-        return Deck.toModel(Objects.requireNonNull(deckRepository
-                .findById(id)
-                .orElseThrow(() -> new DeckNotFoundException("Deck Not Found!"))));
+    public  boolean isAnyDeckExistByUserChatId(Long chatId) {
+        return deckRepository.existsByUserChatId(chatId);
     }
 
     public Long delete(Long id){

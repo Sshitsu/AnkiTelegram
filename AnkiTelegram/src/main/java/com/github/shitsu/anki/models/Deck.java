@@ -21,7 +21,6 @@ public final class Deck {
         Deck model = new Deck();
         model.setId(deckEntity.getId());
         model.setName(deckEntity.getName());
-        model.setDescription(deckEntity.getDescription());
         model.setFlashCardList(
                 deckEntity.getFlashCardList()
                         .stream()
