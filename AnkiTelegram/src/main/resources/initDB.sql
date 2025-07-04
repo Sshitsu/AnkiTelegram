@@ -2,6 +2,7 @@ CREATE TABLE users (
                        chat_id INTEGER UNIQUE  NOT NULL,
                        username TEXT NOT NULL,
                        temp_deck_name VARCHAR(255),
+                       current_deck_id INTEGER,
                        state VARCHAR(255)
 );
 CREATE TABLE deck (

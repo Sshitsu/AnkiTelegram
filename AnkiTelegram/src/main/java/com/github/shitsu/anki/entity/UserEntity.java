@@ -25,6 +25,9 @@ public class UserEntity {
     @Column(name = "temp_deck_name")
     private String tempDeckName;
 
+    @Column(name ="current_deck_id")
+    private Long currentDeckId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<DeckEntity> decks;
 

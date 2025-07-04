@@ -5,7 +5,8 @@ public enum State {
     START,
     WAITING_FOR_DECK_NAME,
     CHOOSING_DECK,
+    IN_DECK,
     ADDING_CARD,
     ADDING_DECK,
-    REVIEWING,
+    REPEATING_FLASHCARD,
 }
