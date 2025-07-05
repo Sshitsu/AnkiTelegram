@@ -1,7 +1,9 @@
 package com.github.shitsu.anki.bot.handler;
 
 import com.github.shitsu.anki.bot.State;
+import com.github.shitsu.anki.entity.UserContext;
 import com.github.shitsu.anki.entity.UserEntity;
+import com.github.shitsu.anki.sevice.UserContextService;
 import com.github.shitsu.anki.sevice.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,7 @@ import static com.github.shitsu.anki.util.TelegramUtil.createInlineKeyboardButto
 public class WaitingForDeckNameHandler implements Handler {
     private final UserService userService;
     private final MessageSource messageSource;
+    private final UserContextService userContextService;
 
 
     @Override
@@ -39,11 +42,16 @@ public class WaitingForDeckNameHandler implements Handler {
             return List.of(errorMessage);
         }
 
-
         UserEntity freshUser = userService.findOrCreateUser(user.getChatId(), user.getUsername());
-        freshUser.setTempDeckName(message.trim());
         freshUser.setState(State.ADDING_DECK);
         userService.save(freshUser);
+
+        UserContext context = userContextService.getContext(user.getChatId());
+        if (context == null) {
+            context = new UserContext();
+        }
+        context.setTempDeckName(message.trim());
+        userContextService.saveContext(user.getChatId(), context);
 
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
