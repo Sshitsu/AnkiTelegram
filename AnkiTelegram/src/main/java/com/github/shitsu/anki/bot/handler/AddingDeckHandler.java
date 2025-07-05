@@ -1,8 +1,10 @@
 package com.github.shitsu.anki.bot.handler;
 
 import com.github.shitsu.anki.bot.State;
+import com.github.shitsu.anki.entity.UserContext;
 import com.github.shitsu.anki.entity.UserEntity;
 import com.github.shitsu.anki.sevice.DeckService;
+import com.github.shitsu.anki.sevice.UserContextService;
 import com.github.shitsu.anki.sevice.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +35,7 @@ public class AddingDeckHandler implements Handler{
 
     private final UserService userService;
     private final DeckService deckService;
+    private final UserContextService userContextService;
     private final MessageSource messageSource;
     private final StartHandler startHandler;
 
@@ -48,10 +51,17 @@ public class AddingDeckHandler implements Handler{
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> accept(UserEntity user, Locale locale) {
+        UserContext userContext = userContextService.getContext(user.getChatId());
+        String deckName = userContext != null ? userContext.getTempDeckName() : null;
 
-        String deckName = user.getTempDeckName();
+        if (deckName == null || deckName.isEmpty()) {
+            SendMessage errorMessage = createMessageTemplate(user);
+            errorMessage.setText(messageSource.getMessage("bot.invalid.deck.name", null, locale));
+            return List.of(errorMessage);
+        }
+
         deckService.addDeckToUser(user, deckName);
-        user.setTempDeckName(null);
+
         user.setState(State.START);
         userService.save(user);
 
@@ -69,7 +79,10 @@ public class AddingDeckHandler implements Handler{
 
     }
     private List<PartialBotApiMethod<? extends Serializable>> reset(UserEntity user, Locale locale) {
-        user.setTempDeckName(null);
+        UserContext userContext = userContextService.getContext(user.getChatId());
+        userContext.setTempDeckName(null);
+        userContextService.saveContext(user.getChatId(), userContext);
+
         userService.save(user);
 
         SendMessage sendMessage = createMessageTemplate(user);
@@ -80,7 +93,10 @@ public class AddingDeckHandler implements Handler{
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> back(UserEntity user, Locale locale) {
-        user.setTempDeckName(null);
+        UserContext userContext = userContextService.getContext(user.getChatId());
+        userContext.setTempDeckName(null);
+        userContextService.saveContext(user.getChatId(), userContext);
+
         if(!deckService.isAnyDeckExistByUserChatId(user.getChatId())) {
             user.setState(State.START);
         } else{
@@ -97,7 +113,10 @@ public class AddingDeckHandler implements Handler{
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> checkName(UserEntity user, String message, Locale locale) {
-        user.setTempDeckName(message);
+        UserContext userContext = userContextService.getContext(user.getChatId());
+        userContext.setTempDeckName(message);
+        userContextService.saveContext(user.getChatId(), userContext);
+
         userService.save(user);
 
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();

@@ -1,6 +1,7 @@
 package com.github.shitsu.anki.config;
 
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
@@ -15,10 +16,10 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 public class AnkiBotConfig {
 
     @Value("${telegram.bot.username}")
-    String botName;
+    private String botName;
 
     @Value("${telegram.bot.token}")
-    String token;
+    private String token;
 
     @Bean
     public MessageSource messageSource() {

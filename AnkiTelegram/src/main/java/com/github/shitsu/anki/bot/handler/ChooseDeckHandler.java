@@ -2,8 +2,10 @@ package com.github.shitsu.anki.bot.handler;
 
 import com.github.shitsu.anki.bot.State;
 import com.github.shitsu.anki.builder.DeckMessageBuilder;
+import com.github.shitsu.anki.entity.UserContext;
 import com.github.shitsu.anki.entity.UserEntity;
 import com.github.shitsu.anki.sevice.DeckService;
+import com.github.shitsu.anki.sevice.UserContextService;
 import com.github.shitsu.anki.sevice.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,7 @@ public class ChooseDeckHandler implements Handler {
     private final DeckService deckService;
     private final MessageSource messageSource;
     private final DeckMessageBuilder  deckMessageBuilder;
+    private final UserContextService userContextService;
 
 
     @Override
@@ -44,7 +47,10 @@ public class ChooseDeckHandler implements Handler {
     private List<PartialBotApiMethod<? extends Serializable>> handleDeckSelection(UserEntity user, String message, Locale locale) {
         try {
             Long deckId = Long.parseLong(message.replace("/chose_deck", ""));
-            user.setCurrentDeckId(deckId);
+            UserContext userContext = userContextService.getContext(user.getChatId());
+            userContext.setCurrentDeckId(deckId);
+            userContextService.saveContext(user.getChatId(), userContext);
+
             user.setState(State.IN_DECK);
             userService.save(user);
 

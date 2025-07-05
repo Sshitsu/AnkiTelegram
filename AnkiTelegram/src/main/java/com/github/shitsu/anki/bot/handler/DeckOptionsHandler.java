@@ -2,8 +2,10 @@ package com.github.shitsu.anki.bot.handler;
 
 import com.github.shitsu.anki.bot.State;
 import com.github.shitsu.anki.builder.DeckMessageBuilder;
+import com.github.shitsu.anki.entity.UserContext;
 import com.github.shitsu.anki.entity.UserEntity;
 import com.github.shitsu.anki.sevice.DeckService;
+import com.github.shitsu.anki.sevice.UserContextService;
 import com.github.shitsu.anki.sevice.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +31,7 @@ public class DeckOptionsHandler implements Handler{
     private final DeckService deckService;
     private final MessageSource messageSource;
     private final DeckMessageBuilder deckMessageBuilder;
+    private final UserContextService userContextService;
 
     public static final String ADD_FLASHCARD = "/add_flashcard";
     public static final String START_REPEAT = "/start_repeat";
@@ -67,9 +70,11 @@ public class DeckOptionsHandler implements Handler{
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> handleDeleteDeck(UserEntity user, Locale locale) {
-        Long deckId = user.getCurrentDeckId();
+        UserContext userContext = userContextService.getContext(user.getChatId());
+        Long deckId = userContext.getCurrentDeckId();
         deckService.delete(deckId);
-        user.setCurrentDeckId(null);
+        userContext.setCurrentDeckId(null);
+        userContextService.saveContext(user.getChatId(), userContext);
         user.setState(State.CHOOSING_DECK);
         userService.save(user);
 
@@ -83,7 +88,10 @@ public class DeckOptionsHandler implements Handler{
     }
 
     private List<PartialBotApiMethod<? extends Serializable>> handleBackToDecks(UserEntity user, Locale locale) {
-        user.setCurrentDeckId(null);
+        UserContext userContext = userContextService.getContext(user.getChatId());
+        userContext.setCurrentDeckId(null);
+        userContextService.saveContext(user.getChatId(), userContext);
+
         user.setState(State.CHOOSING_DECK);
         userService.save(user);
 
