@@ -17,6 +17,8 @@ AnkiTelegram is a Telegram bot that implements the functionality of the [Anki](h
 - PostgreSQL
 - Telegram Bots Java API
 - Maven
+- Docker
+- Redis
 
 ##  Setup and Run
 
